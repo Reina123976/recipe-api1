@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: recipe-api
+    runtime: java
+    plan: free
+    buildCommand: |
+      apt-get update
+      apt-get install -y maven
+      mvn clean package -DskipTests
+    startCommand: java -jar target/recipeapi-0.0.1-SNAPSHOT.jar
+    envVars:
+      - key: MONGODB_URI
+        value: mongodb+srv://Reina123:Reinakazan123@cluster0.byamjdm.mongodb.net/Recipedb?retryWrites=true&w=majority&appName=Cluster0
+      - key: JWT_SECRET
+        value: secureRandomStringForJWTSigning123
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
