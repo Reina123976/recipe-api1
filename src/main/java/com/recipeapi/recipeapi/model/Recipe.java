@@ -3,6 +3,12 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.List;
 
+/**
+ * Model class representing a recipe in the system.
+ *
+ * <p>This class maps to documents in the "recipes" collection in MongoDB.</p>
+ *
+ */
 @Document(collection = "recipes")
 public class Recipe {
     @Id
@@ -18,6 +24,16 @@ public class Recipe {
     public Recipe() {
     }
 
+    /**
+     * Creates a new Recipe with the specified details.
+     *
+     * @param title The recipe title
+     * @param ingredients List of ingredients
+     * @param instructions Cooking instructions
+     * @param cookingTime Cooking time in minutes
+     * @param category Recipe category
+     * @param createdBy Username of the creator
+     */
     public Recipe(String title, List<String> ingredients, String instructions,
                   Integer cookingTime, String category, String createdBy) {
         this.title = title;
@@ -85,6 +101,11 @@ public class Recipe {
         this.createdBy = createdBy;
     }
 
+    /**
+     * Returns a string representation of the recipe.
+     *
+     * @return A string containing all recipe details
+     */
     @Override
     public String toString() {
         return "Recipe{" +

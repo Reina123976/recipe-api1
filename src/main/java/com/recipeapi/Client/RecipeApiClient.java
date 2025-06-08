@@ -10,6 +10,22 @@ import java.util.Scanner;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+/**
+ * A command-line client application for interacting with the Recipe API.
+ *
+ * <p>This client provides a user interface for:
+ * <ul>
+ *   <li>User authentication (login and registration)</li>
+ *   <li>Recipe management (create, read, update, delete)</li>
+ *   <li>Recipe search functionality</li>
+ * </ul>
+ * </p>
+ *
+ * <p>The client communicates with the Recipe API server via HTTP requests.</p>
+ *
+ * @author Reina
+ * @version 1.0
+ */
 
 public class RecipeApiClient {
 
@@ -17,6 +33,12 @@ public class RecipeApiClient {
     private static final Scanner scanner = new Scanner(System.in);
     private static String token = null;
     private static String username = null;
+
+    /**
+     * Main method to start the Recipe Management System client.
+     *
+     * @param args Command line arguments (not used)
+     */
 
     public static void main(String[] args) {
         System.out.println("Welcome to Recipe Management System");
@@ -78,6 +100,10 @@ public class RecipeApiClient {
         scanner.close();
     }
 
+    /**
+     * Displays the authentication menu options for users who are not logged in.
+     */
+
     private static void showAuthMenu() {
         System.out.println("\n=== Authentication Menu ===");
         System.out.println("1. Login");
@@ -86,6 +112,9 @@ public class RecipeApiClient {
         System.out.print("Enter your choice: ");
     }
 
+    /**
+     * Displays the main menu options for authenticated users.
+     */
     private static void showMainMenu() {
         System.out.println("\n=== Recipe Management Menu ===");
         System.out.println("Logged in as: " + username);
@@ -99,6 +128,11 @@ public class RecipeApiClient {
         System.out.print("Enter your choice: ");
     }
 
+    /**
+     * Gets the user's menu choice, handling potential input errors.
+     *
+     * @return An integer representing the user's selection, or -1 if input was invalid
+     */
     private static int getUserChoice() {
         try {
             return Integer.parseInt(scanner.nextLine());
@@ -107,6 +141,10 @@ public class RecipeApiClient {
         }
     }
 
+    /**
+     * Authenticates a user by collecting credentials and sending them to the API.
+     * Stores the JWT token upon successful authentication.
+     */
     private static void login() {
         System.out.println("\n=== Login ===");
         System.out.print("Username: ");
@@ -152,6 +190,9 @@ public class RecipeApiClient {
         }
     }
 
+    /**
+     * Registers a new user by collecting registration information and sending it to the API.
+     */
     private static void register() {
         System.out.println("\n=== Register ===");
         System.out.print("Name: ");
@@ -202,12 +243,18 @@ public class RecipeApiClient {
         }
     }
 
+    /**
+     * Logs out the current user by clearing the stored JWT token.
+     */
     private static void logout() {
         token = null;
         username = null;
         System.out.println("Logged out successfully.");
     }
 
+    /**
+     * Retrieves and displays all recipes from the API.
+     */
     private static void listAllRecipes() {
         System.out.println("\n=== All Recipes ===");
 
@@ -262,6 +309,9 @@ public class RecipeApiClient {
         }
     }
 
+    /**
+     * Collects recipe information from the user and sends it to the API to create a new recipe.
+     */
     private static void addRecipe() {
         System.out.println("\n=== Add Recipe ===");
 
@@ -405,6 +455,9 @@ public class RecipeApiClient {
         }
     }
 
+    /**
+     * Updates an existing recipe by collecting updated information from the user and sending it to the API.
+     */
     private static void updateRecipe() {
         System.out.println("\n=== Update Recipe ===");
         System.out.print("Enter recipe ID to update: ");
@@ -476,6 +529,9 @@ public class RecipeApiClient {
         }
     }
 
+    /**
+     * Deletes a recipe by ID after user confirmation.
+     */
     private static void deleteRecipe() {
         System.out.println("\n=== Delete Recipe ===");
         System.out.print("Enter recipe ID to delete: ");
@@ -505,7 +561,9 @@ public class RecipeApiClient {
             e.printStackTrace();
         }
     }
-
+    /**
+     * Searches for recipes by title using the search functionality of the API.
+     */
     private static void searchRecipes() {
         System.out.println("\n=== Search Recipes ===");
         System.out.print("Enter search term: ");
@@ -563,6 +621,12 @@ public class RecipeApiClient {
         }
     }
 
+    /**
+     * Collects recipe data from the user, either for creating a new recipe or updating an existing one.
+     *
+     * @param existingRecipe The existing recipe to update, or null if creating a new recipe
+     * @return A JSONObject containing the recipe data, or null if required fields are missing
+     */
     private static JSONObject getRecipeDataFromUser(JSONObject existingRecipe) {
         JSONObject recipeData = new JSONObject();
         boolean missingRequiredFields = false;
@@ -701,6 +765,11 @@ public class RecipeApiClient {
         return recipeData;
     }
 
+    /**
+     * Displays a formatted view of a recipe.
+     *
+     * @param recipe The recipe to display
+     */
     private static void displayRecipe(JSONObject recipe) {
         System.out.println("\n-----------------------------");
         System.out.println("ID: " + recipe.getString("id"));
@@ -732,6 +801,14 @@ public class RecipeApiClient {
         System.out.println("-----------------------------");
     }
 
+    /**
+     * Creates an HTTP connection with the specified URL and method.
+     *
+     * @param urlStr The URL string to connect to
+     * @param method The HTTP method (GET, POST, PUT, DELETE)
+     * @return An HttpURLConnection object
+     * @throws IOException If an I/O error occurs
+     */
     private static HttpURLConnection createConnection(String urlStr, String method) throws IOException {
         URL url = new URL(urlStr);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -740,6 +817,13 @@ public class RecipeApiClient {
         return connection;
     }
 
+    /**
+     * Reads the response from an HTTP connection.
+     *
+     * @param connection The HTTP connection to read from
+     * @return The response body as a string
+     * @throws IOException If an I/O error occurs
+     */
     private static String readResponse(HttpURLConnection connection) throws IOException {
         // Check if either input or error stream is available
         if (connection == null) {
